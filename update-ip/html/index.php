@@ -63,9 +63,9 @@
             exit("IP already in the database, skipping update");
         }
 
-        // Compute the change_date used to update the timestamp.         
-        $incr = date('g') * 4.0 + date('i') / 15;
-        $ts   =  date('Ymd') . floor($incr);
+        // Compute the change_date used to update the timestamp.
+        $ts = intval(floor(100 * (date('G') + date('i') / 60.0) / 24));
+        $ts   =  100 * intval(date('Ymd')) + $ts;
 
         // Perform the update
         $stmt = $conn->prepare(
