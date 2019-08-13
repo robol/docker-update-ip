@@ -1,5 +1,4 @@
 <?php
-    
   // Check the validity of the given domain
   function domain_validate($domain) {
     $j = 0;
@@ -14,7 +13,11 @@
     return $domain;
   }
 
-  $ip = $_SERVER["REMOTE_ADDR"];
+  $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  if (!isset($ip)) {
+      $ip = $_SERVER["REMOTE_ADDR"];
+  }
+
   $domain_name = $_GET['domain'];
 
   // Validate the domain name
