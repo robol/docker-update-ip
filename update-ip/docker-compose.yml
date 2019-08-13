@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  update-ip:
+    build: .
+    container_name: update-ip
+    networks:
+      - backend
+    volumes:
+      - "./html:/var/www/html"
+    environment:
+      # This needs to be on the same network
+      MYSQL_HOST: "powerdns-db"
+      MYSQL_USER: "pdns"
+      MYSQL_DATABASE: "pdns"
+      MYSQL_PASSWORD: "password_of_mysql"
+      API_KEY: "random_api_key"
+    ports:
+      - 1080:80
