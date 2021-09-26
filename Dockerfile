@@ -1,11 +1,15 @@
-FROM php:7.2-apache
+FROM python:3
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN mkdir /app
 
-COPY html/index.php /var/www/html/index.php
-COPY update-ip.ini /etc/update-ip.ini.in
-COPY app.sh /usr/local/bin/app.sh
+ADD update_ip.py /app/
+ADD requirements.txt /app/
+ADD wsgi.py /app/
+
+RUN pip3 install -r /app/requirements.txt
+
+WORKDIR /app
 
 EXPOSE 80
 
-ENTRYPOINT [ "app.sh" ]
+CMD [ "gunicorn", "-w", "2", "-b", "0.0.0.0:80", "wsgi:app" ]
